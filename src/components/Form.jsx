@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import Star from './Star';
+import StarRating from './Star.jsx';
+import Rating from '@mui/material/Rating';
 
 const Form = () => {
     const [formData, setFormData] = useState({
@@ -18,6 +19,13 @@ const Form = () => {
             ...formData,
             [name]: value
         });
+    };
+
+    const handleRatingChange = (newValue, fieldName) => {
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [fieldName]: newValue
+        }));
     };
 
     const handleSubmit = (e) => {
@@ -42,31 +50,6 @@ const Form = () => {
         setTableData(tableData.filter((_, i) => i !== index));
     };
 
-    const handleRatingChange = (rating, fieldName) => {
-        setFormData({
-            ...formData,
-            [fieldName]: rating
-        });
-    };
-
-    const renderStars = (rating, fieldName) => {
-        const stars = [];
-        for (let i = 1; i <= 5; i++) {
-            stars.push(
-                <Star
-                    key={i}
-                    selected={i <= rating}
-                    onClick={() => handleRatingChange(i, fieldName)}
-                />
-            );
-        }
-        return (
-            <div className="flex">
-                {stars}
-            </div>
-        )
-    }
-
     return (
         <div className="w-screen h-screen bg-gray-900 p-6">
             <form onSubmit={handleSubmit} className="bg-gray-800 shadow-md rounded-lg flex flex-wrap justify-between items-start mx-auto p-6">
@@ -85,18 +68,28 @@ const Form = () => {
                         Actual Rating
                     </label>
                     <div className="flex items-center justify-center h-12">
-                        {renderStars(formData.actualRating, 'actualRating')}
+                        <StarRating
+                            value={formData.actualRating}
+                            onChange={(newValue) => {
+                                // console.log("New rating:", newValue); Comprobado que funciona
+                                handleRatingChange(newValue, 'actualRating')
+                            }
+                            }
+                        />
                     </div>
                 </div>
-
                 <div className="flex flex-col w-full md:w-1/3 lg:w-1/6 mb-4">
                     <label className="block text-gray-400 text-sm font-bold mb-2 text-center" htmlFor="potentialRating">
                         Potential Rating
                     </label>
                     <div className="flex items-center justify-center h-12">
-                        {renderStars(formData.potentialRating, 'potentialRating')}
+                        <StarRating
+                            value={formData.potentialRating}
+                            onChange={(newValue) => handleRatingChange(newValue, 'potentialRating')}
+                        />
                     </div>
                 </div>
+
                 <div className="flex flex-col w-full md:w-1/3 lg:w-1/6 mb-4">
                     <label className="block text-gray-400 text-sm font-bold mb-2 text-center" htmlFor="age">
                         Age
@@ -140,10 +133,14 @@ const Form = () => {
                     </thead>
                     <tbody>
                         {tableData.map((data, index) => (
-                            <tr key={index}>
+                            <tr key={index} >
                                 <td className="border border-gray-700 px-4 py-2 text-gray-300">{data.playerName}</td>
-                                <td className="border border-gray-700 px-4 py-2 text-gray-300">{renderStars(data.actualRating)}</td>
-                                <td className="border border-gray-700 px-4 py-2 text-gray-300">{renderStars(data.potentialRating)}</td>
+                                <td className="border border-gray-700 px-4 py-2 text-gray-300">
+                                    <Rating name="read-only" value={data.actualRating} readOnly precision={0.5} />
+                                </td>
+                                <td className="border border-gray-700 px-4 py-2 text-gray-300">
+                                    <Rating name="read-only" value={data.potentialRating} readOnly precision={0.5} />
+                                </td>
                                 <td className="border border-gray-700 px-4 py-2 text-gray-300">{data.age}</td>
                                 <td className="border border-gray-700 px-4 py-2 text-gray-300">{data.salary}</td>
                                 <td className="border border-gray-700 px-4 py-2 text-gray-300">
@@ -155,7 +152,7 @@ const Form = () => {
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div >
     );
 };
 
