@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import StarRating from './Star.jsx';
 import Rating from '@mui/material/Rating';
 
@@ -61,33 +61,52 @@ const Form = () => {
         }
     };
 
-   const sortedTableData = () => {
-    if (!sortColumn) return tableData;
+    const sortedTableData = () => {
+        if (!sortColumn) return tableData;
 
-    return [...tableData].sort((a, b) => {
-        if (sortColumn === 'playerName') {
-            const aValue = typeof a[sortColumn] === 'string' ? a[sortColumn] : '';
-            const bValue = typeof b[sortColumn] === 'string' ? b[sortColumn] : '';
+        return [...tableData].sort((a, b) => {
+            if (sortColumn === 'playerName') {
+                const aValue = typeof a[sortColumn] === 'string' ? a[sortColumn] : '';
+                const bValue = typeof b[sortColumn] === 'string' ? b[sortColumn] : '';
 
-            if (sortDirection === 'asc') {
-                return aValue.localeCompare(bValue);
+                if (sortDirection === 'asc') {
+                    return aValue.localeCompare(bValue);
+                } else {
+                    return bValue.localeCompare(aValue);
+                }
             } else {
-                return bValue.localeCompare(aValue);
-            }
-        } else {
-            const aValue = a[sortColumn];
-            const bValue = b[sortColumn];
+                const aValue = a[sortColumn];
+                const bValue = b[sortColumn];
 
-            if (sortDirection === 'asc') {
-                return aValue - bValue;
-            } else {
-                return bValue - aValue;
+                if (sortDirection === 'asc') {
+                    return aValue - bValue;
+                } else {
+                    return bValue - aValue;
+                }
             }
+        });
+    };
+
+    useEffect(() => {
+        const savedFormData = localStorage.getItem('formData');
+        if (savedFormData) {
+            setFormData(JSON.parse(savedFormData));
         }
-    });
-};
+
+        const savedTableData = localStorage.getItem('tableData');
+        if (savedTableData) {
+            setTableData(JSON.parse(savedTableData));
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('formData', JSON.stringify(formData));
+    }, [formData]);
 
 
+    useEffect(() => {
+        localStorage.setItem('tableData', JSON.stringify(tableData));
+    }, [tableData]);
 
     return (
         <div className="w-screen h-screen bg-gray-900 p-6">

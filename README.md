@@ -9,4 +9,4 @@ Version 0.5
 [X] Minimal features.
 [X] improve rating system with visual Stars.
 [X] Added column sorting support.
-[X] Added 
+[X] Added storage support for data.
