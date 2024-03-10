@@ -10,3 +10,5 @@ Version 0.5
 [X] improve rating system with visual Stars.
 [X] Added column sorting support.
 [X] Added storage support for data.
+
+[] Mobile responsive.
