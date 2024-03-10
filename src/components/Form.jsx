@@ -12,6 +12,8 @@ const Form = () => {
     });
 
     const [tableData, setTableData] = useState([]);
+    const [sortColumn, setSortColumn] = useState(null);
+    const [sortDirection, setSortDirection] = useState('asc');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -49,6 +51,43 @@ const Form = () => {
     const handleDelete = (index) => {
         setTableData(tableData.filter((_, i) => i !== index));
     };
+
+    const handleSort = (column) => {
+        if (column === sortColumn) {
+            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortColumn(column);
+            setSortDirection('asc');
+        }
+    };
+
+   const sortedTableData = () => {
+    if (!sortColumn) return tableData;
+
+    return [...tableData].sort((a, b) => {
+        if (sortColumn === 'playerName') {
+            const aValue = typeof a[sortColumn] === 'string' ? a[sortColumn] : '';
+            const bValue = typeof b[sortColumn] === 'string' ? b[sortColumn] : '';
+
+            if (sortDirection === 'asc') {
+                return aValue.localeCompare(bValue);
+            } else {
+                return bValue.localeCompare(aValue);
+            }
+        } else {
+            const aValue = a[sortColumn];
+            const bValue = b[sortColumn];
+
+            if (sortDirection === 'asc') {
+                return aValue - bValue;
+            } else {
+                return bValue - aValue;
+            }
+        }
+    });
+};
+
+
 
     return (
         <div className="w-screen h-screen bg-gray-900 p-6">
@@ -123,16 +162,26 @@ const Form = () => {
                 <table className="table-auto w-full bg-gray-800 border border-gray-700">
                     <thead>
                         <tr>
-                            <th className="px-4 py-2 text-gray-400">Player Name</th>
-                            <th className="px-4 py-2 text-gray-400">Actual Rating</th>
-                            <th className="px-4 py-2 text-gray-400">Potential Rating</th>
-                            <th className="px-4 py-2 text-gray-400">Age</th>
-                            <th className="px-4 py-2 text-gray-400">Salary</th>
+                            <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('playerName')}>
+                                Player Name {sortColumn === 'playerName' && (sortDirection === 'asc' ? '↑' : '↓')}
+                            </th>
+                            <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('actualRating')}>
+                                Actual Rating {sortColumn === 'actualRating' && (sortDirection === 'asc' ? '↑' : '↓')}
+                            </th>
+                            <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('potentialRating')}>
+                                Potential Rating {sortColumn === 'potentialRating' && (sortDirection === 'asc' ? '↑' : '↓')}
+                            </th>
+                            <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('age')}>
+                                Age {sortColumn === 'age' && (sortDirection === 'asc' ? '↑' : '↓')}
+                            </th>
+                            <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('salary')}>
+                                Salary {sortColumn === 'salary' && (sortDirection === 'asc' ? '↑' : '↓')}
+                            </th>
                             <th className="px-4 py-2 text-gray-400">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {tableData.map((data, index) => (
+                        {sortedTableData().map((data, index) => (
                             <tr key={index} >
                                 <td className="border border-gray-700 px-4 py-2 text-gray-300">{data.playerName}</td>
                                 <td className="border border-gray-700 px-4 py-2 text-gray-300">
