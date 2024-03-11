@@ -111,6 +111,23 @@ const Form = () => {
     return (
         <div className="w-screen h-screen bg-gray-900 p-6">
             <form onSubmit={handleSubmit} className="bg-gray-800 shadow-md rounded-lg flex flex-wrap justify-between items-start mx-auto p-6">
+                <div className="flex flex-col items-center w-full md:w-1/3 lg:w-1/6 mb-4">
+                    <label className="block text-gray-400 text-sm font-bold mb-2 text-center" htmlFor="position">
+                        Position
+                    </label>
+                    <select
+                        className="shadow border-gray-700 bg-gray-700 rounded py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline mt-2 w-20 mx-auto"
+                        id="position" type="text" placeholder="Position"
+                        name="position" value={formData.position} onChange={handleChange}
+                    >
+                        <option value="" disabled selected>POS</option>
+                        <option value="PG">PG</option>
+                        <option value="SG">SG</option>
+                        <option value="SF">SF</option>
+                        <option value="PF">PF</option>
+                        <option value="C">C</option>
+                    </select>
+                </div>
                 <div className="flex flex-col w-full md:w-1/3 lg:w-1/6 mb-4">
                     <label className="block text-gray-400 text-sm font-bold mb-2 text-center" htmlFor="playerName">
                         Player Name
@@ -181,6 +198,9 @@ const Form = () => {
                 <table className="table-auto w-full bg-gray-800 border border-gray-700">
                     <thead>
                         <tr>
+                            <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('position')}>
+                                Position {sortColumn === 'position' && (sortDirection === 'asc' ? '↑' : '↓')}
+                            </th>
                             <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('playerName')}>
                                 Player Name {sortColumn === 'playerName' && (sortDirection === 'asc' ? '↑' : '↓')}
                             </th>
@@ -202,6 +222,7 @@ const Form = () => {
                     <tbody>
                         {sortedTableData().map((data, index) => (
                             <tr key={index} >
+                                <td className="border border-gray-700 px-4 py-2 text-gray-300">{data && data.position ? data.position.toUpperCase() : ''}</td>
                                 <td className="border border-gray-700 px-4 py-2 text-gray-300">{data.playerName}</td>
                                 <td className="border border-gray-700 px-4 py-2 text-gray-300">
                                     <Rating name="read-only" value={data.actualRating} readOnly precision={0.5} />
