@@ -195,51 +195,53 @@ const Form = () => {
 
             <div className="mt-8">
                 <h2 className="text-xl font-bold text-white mb-4">Form Data</h2>
-                <table className="table-auto w-full bg-gray-800 border border-gray-700">
-                    <thead>
-                        <tr>
-                            <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('position')}>
-                                Position {sortColumn === 'position' && (sortDirection === 'asc' ? '↑' : '↓')}
-                            </th>
-                            <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('playerName')}>
-                                Player Name {sortColumn === 'playerName' && (sortDirection === 'asc' ? '↑' : '↓')}
-                            </th>
-                            <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('actualRating')}>
-                                Actual Rating {sortColumn === 'actualRating' && (sortDirection === 'asc' ? '↑' : '↓')}
-                            </th>
-                            <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('potentialRating')}>
-                                Potential Rating {sortColumn === 'potentialRating' && (sortDirection === 'asc' ? '↑' : '↓')}
-                            </th>
-                            <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('age')}>
-                                Age {sortColumn === 'age' && (sortDirection === 'asc' ? '↑' : '↓')}
-                            </th>
-                            <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('salary')}>
-                                Salary {sortColumn === 'salary' && (sortDirection === 'asc' ? '↑' : '↓')}
-                            </th>
-                            <th className="px-4 py-2 text-gray-400">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {sortedTableData().map((data, index) => (
-                            <tr key={index} >
-                                <td className="border border-gray-700 px-4 py-2 text-gray-300">{data && data.position ? data.position.toUpperCase() : ''}</td>
-                                <td className="border border-gray-700 px-4 py-2 text-gray-300">{data.playerName}</td>
-                                <td className="border border-gray-700 px-4 py-2 text-gray-300">
-                                    <Rating name="read-only" value={data.actualRating} readOnly precision={0.5} />
-                                </td>
-                                <td className="border border-gray-700 px-4 py-2 text-gray-300">
-                                    <Rating name="read-only" value={data.potentialRating} readOnly precision={0.5} />
-                                </td>
-                                <td className="border border-gray-700 px-4 py-2 text-gray-300">{data.age}</td>
-                                <td className="border border-gray-700 px-4 py-2 text-gray-300">{data.salary}</td>
-                                <td className="border border-gray-700 px-4 py-2 text-gray-300">
-                                    <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 mr-2 rounded focus:outline-none focus:shadow-outline" onClick={() => handleEdit(index)}>Edit</button>
-                                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline" onClick={() => handleDelete(index)}>Delete</button>
-                                </td>
+                <div className='overflow-x-auto'>
+                    <table className="table-auto w-full bg-gray-800 border border-gray-700">
+                        <thead>
+                            <tr>
+                                <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('position')}>
+                                    Position {sortColumn === 'position' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                </th>
+                                <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('playerName')}>
+                                    Player Name {sortColumn === 'playerName' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                </th>
+                                <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('actualRating')}>
+                                    Actual Rating {sortColumn === 'actualRating' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                </th>
+                                <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('potentialRating')}>
+                                    Potential Rating {sortColumn === 'potentialRating' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                </th>
+                                <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('age')}>
+                                    Age {sortColumn === 'age' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                </th>
+                                <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('salary')}>
+                                    Salary {sortColumn === 'salary' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                </th>
+                                <th className="px-4 py-2 text-gray-400">Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className='overflow-x-auto'>
+                            {sortedTableData().map((data, index) => (
+                                <tr key={index} >
+                                    <td className="border border-gray-700 px-4 py-2 text-gray-300">{data && data.position ? data.position.toUpperCase() : ''}</td>
+                                    <td className="border border-gray-700 px-4 py-2 text-gray-300">{data.playerName}</td>
+                                    <td className="border border-gray-700 px-4 py-2 text-gray-300">
+                                        <Rating name="read-only" value={data.actualRating} readOnly precision={0.5} />
+                                    </td>
+                                    <td className="border border-gray-700 px-4 py-2 text-gray-300">
+                                        <Rating name="read-only" value={data.potentialRating} readOnly precision={0.5} />
+                                    </td>
+                                    <td className="border border-gray-700 px-4 py-2 text-gray-300">{data.age}</td>
+                                    <td className="border border-gray-700 px-4 py-2 text-gray-300">{data.salary}</td>
+                                    <td className="border border-gray-700 px-4 py-2 text-gray-300">
+                                        <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 mr-2 rounded focus:outline-none focus:shadow-outline" onClick={() => handleEdit(index)}>Edit</button>
+                                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline" onClick={() => handleDelete(index)}>Delete</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div >
     );
