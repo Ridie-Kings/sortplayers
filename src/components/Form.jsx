@@ -196,7 +196,7 @@ const Form = () => {
             <div className="mt-8 bg-gray-900">
                 <h2 className="text-xl font-bold text-white mb-4">Form Data</h2>
                 <div className='overflow-x-auto '>
-                    <table className="table-auto w-full bg-gray-800 border border-gray-700">
+                    <table className="table-auto w-full bg-gray-800 border border-gray-700 mb-8">
                         <thead>
                             <tr>
                                 <th className="px-4 py-2 text-gray-400" onClick={() => handleSort('position')}>
