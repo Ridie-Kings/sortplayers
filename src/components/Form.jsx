@@ -193,9 +193,9 @@ const Form = () => {
                 </div>
             </form>
 
-            <div className="mt-8">
+            <div className="mt-8 bg-gray-900">
                 <h2 className="text-xl font-bold text-white mb-4">Form Data</h2>
-                <div className='overflow-x-auto'>
+                <div className='overflow-x-auto '>
                     <table className="table-auto w-full bg-gray-800 border border-gray-700">
                         <thead>
                             <tr>
