@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import StarRating from './Star.jsx';
 import Rating from '@mui/material/Rating';
+import { v4 as uuidv4 } from 'uuid';
 
 const Form = () => {
     const [formData, setFormData] = useState({
@@ -30,9 +31,23 @@ const Form = () => {
         }));
     };
 
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        setTableData([...tableData, formData]);
+        if (formData.id) {
+            const updatedData = tableData.map(item => {
+                if (item.id === formData.id) {
+                    return { ...formData };
+                }
+                return item;
+            });
+            setTableData(updatedData);
+            console.log(updatedData);
+        } else {
+            const newDataWithId = { ...formData, id: uuidv4() };
+            setTableData([...tableData, newDataWithId]);
+        }
         setFormData({
             playerName: '',
             actualRating: 0,
@@ -42,14 +57,15 @@ const Form = () => {
         });
     };
 
-    const handleEdit = (index) => {
-        const editedData = tableData[index];
-        setFormData(editedData);
-        setTableData(tableData.filter((_, i) => i !== index));
+    const handleEdit = (id) => {
+        const itemToEdit = tableData.find(item => item.id === id)
+        if (itemToEdit) {
+            setFormData({ ...itemToEdit });
+        }
     };
 
-    const handleDelete = (index) => {
-        setTableData(tableData.filter((_, i) => i !== index));
+    const handleDelete = (id) => {
+        setTableData(tableData.filter(item => item.id !== id));
     };
 
     const handleSort = (column) => {
@@ -234,8 +250,8 @@ const Form = () => {
                                     <td className="border border-gray-700 px-4 py-2 text-gray-300">{data.age}</td>
                                     <td className="border border-gray-700 px-4 py-2 text-gray-300">{data.salary}</td>
                                     <td className="border border-gray-700 px-4 py-2 text-gray-300">
-                                        <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 mr-2 rounded focus:outline-none focus:shadow-outline" onClick={() => handleEdit(index)}>Edit</button>
-                                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline" onClick={() => handleDelete(index)}>Delete</button>
+                                        <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 mr-2 rounded focus:outline-none focus:shadow-outline" onClick={() => handleEdit(data.id)}>Edit</button>
+                                        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline" onClick={() => handleDelete(data.id)}>Delete</button>
                                     </td>
                                 </tr>
                             ))}
